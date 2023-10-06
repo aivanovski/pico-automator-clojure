@@ -6,20 +6,26 @@
   (:import [com.github.aivanovski.picoautomator.domain.entity Duration ElementReference]
            [com.github.aivanovski.picoautomator.presentation OutputWriter]))
 
-(defn transform-to-element
+(defn to-element
   [data]
   (cond
     (:id data) (ElementReference/id (:id data))
     (:text data) (ElementReference/text (:text data))
     (:contains-text data) (ElementReference/containsText (:contains-text data))
-    :else (throw (IllegalArgumentException. "Invalid reference to element"))))
+    (:content-desc data) (ElementReference/contentDesc (:content-desc data))
+    :else (throw
+            (let [message (format "Invalid reference to element: %s" data)]
+              (IllegalArgumentException. message)))))
 
-(defn transform-to-duration
+(defn to-duration
   [data]
   (cond
     (:seconds data) (Duration/seconds (:seconds data))
     (:milliseconds data) (Duration/millis (:milliseconds data))
-    (:millis data) (Duration/millis (:millis data))))
+    (:millis data) (Duration/millis (:millis data))
+    :else (throw
+            (let [message (format "Invalid duration: %s" data)]
+              (IllegalArgumentException. message)))))
 
 (defn create-printer
   []
