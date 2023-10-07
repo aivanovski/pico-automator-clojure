@@ -7,7 +7,7 @@
  :deps
  {org.clojure/clojure                     {:mvn/version "1.11.1"}
   org.jetbrains.kotlin/kotlin-stdlib-jdk8 {:mvn/version "1.8.22"}
-  com.github.aivanovski/pico-automator    {:mvn/version "0.0.7"}}
+  com.github.aivanovski/pico-automator    {:mvn/version "0.0.8"}}
 
  :aliases
  {:run-m {:main-opts ["-m" "picoautomator.api"]}
