@@ -31,7 +31,7 @@
 (deftype PicoAutomatorImpl [^PicoAutomatorApi api]
   PicoAutomator
   (launch [this package-name] (.launch api package-name) this)
-  (assert-visible [this element] (.assertVisible api (to-array (to-element element))) this)
+  (assert-visible [this element] (.assertVisible api (to-array (list (to-element element)))) this)
   (tap-on [this element] (.tapOn api (to-element element)) this)
   (input-text [this text] (.inputText api text) this)
   (input-text [this text element] (.inputText api (to-element element) text) this)
