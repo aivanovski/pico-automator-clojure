@@ -39,7 +39,7 @@
   (wait-until [this element timeout step]
     (.waitUntil api (to-element element) (to-duration timeout) (to-duration step)) this)
   (ui-tree [this] (.getUiTree api))
-  (sleep [this duration] (.delay api (to-duration duration)) this)
+  (sleep [this duration] (.sleep api (to-duration duration)) this)
   (fail [this message] (.fail api message))
   (complete [this message] (.complete api message)))
 
