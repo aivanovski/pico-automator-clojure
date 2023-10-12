@@ -1,6 +1,8 @@
 .cpcache/
 .clj-kondo/
 .lsp/
+target/
 .nrepl-port
+.lein-repl-history
 *.iml
 .idea
