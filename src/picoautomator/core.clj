@@ -6,7 +6,6 @@
            [com.github.aivanovski.picoautomator FlowFactory PicoAutomatorApi]
            [com.github.aivanovski.picoautomator.extensions UiNodeExtensionsKt]
            [com.github.aivanovski.picoautomator.domain.entity UiTreeNode]
-           [com.github.aivanovski.picoautomator.presentation StandardOutputFlowReporter]
            [com.github.aivanovski.picoautomator.domain.runner FlowRunner]))
 
 (defn has-element
@@ -52,8 +51,9 @@
 
 (defn start-flow
   [flow-name f]
-  (let [reporter (StandardOutputFlowReporter. (create-printer))
-        runner (FlowRunner. 3)
+  (let [reporter (setup-flow-reporter)
+        runner (FlowRunner/getDefaultRunner)
         flow (FlowFactory/newFlow flow-name (wrap-with-clj-api f))]
     (.addLifecycleListener runner reporter)
-    (.run runner flow)))
+    (.run runner flow true)
+    (.removeLifecycleListener runner reporter)))

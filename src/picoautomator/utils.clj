@@ -4,7 +4,7 @@
             [clojure.stacktrace :refer [print-stack-trace]])
 
   (:import [com.github.aivanovski.picoautomator.domain.entity Duration ElementReference]
-           [com.github.aivanovski.picoautomator.presentation OutputWriter]))
+           [com.github.aivanovski.picoautomator.presentation OutputWriter StandardOutputFlowReporter]))
 
 (defn to-element
   [data]
@@ -27,7 +27,7 @@
             (let [message (format "Invalid duration: %s" data)]
               (IllegalArgumentException. message)))))
 
-(defn create-printer
+(defn create-writer
   []
   (reify OutputWriter
     (print [this text] (do
@@ -36,3 +36,8 @@
     (println [this line] (core/println line))
     (printStackTrace [this exception] (print-stack-trace exception))))
 
+(defn setup-flow-reporter
+  []
+  (if (nil? (StandardOutputFlowReporter/getDefaultReporter))
+       (StandardOutputFlowReporter/newReplReporter (create-writer))
+       (StandardOutputFlowReporter/getDefaultReporter)))
