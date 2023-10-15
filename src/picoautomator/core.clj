@@ -15,8 +15,9 @@
 (defprotocol PicoAutomator
   "A wrapper for PicoAutomatorApi that makes it easier to use from Clojure"
   (launch ^PicoAutomator [this package-name])
-  (assert-visible ^PicoAutomator [this element])
+  (assert-visible ^PicoAutomator [this elements])
   (tap-on ^PicoAutomator [this element])
+  (long-tap-on ^PicoAutomator [this element])
   (input-text ^PicoAutomator
     [this text]
     [this text element])
@@ -30,8 +31,14 @@
 (deftype PicoAutomatorImpl [^PicoAutomatorApi api]
   PicoAutomator
   (launch [this package-name] (.launch api package-name) this)
-  (assert-visible [this element] (.assertVisible api (to-element element)) this)
+  (assert-visible
+    [this elements]
+    (cond 
+      (map? elements) (.assertVisible api (to-element elements))
+      (list? elements) (.assertVisible api (map #(to-element %) elements)))
+    this)
   (tap-on [this element] (.tapOn api (to-element element)) this)
+  (long-tap-on [this element] (.longTapOn api (to-element element)) this)
   (input-text [this text] (.inputText api text) this)
   (input-text [this text element] (.inputText api (to-element element) text) this)
   (visible? [this element] (.isVisible api (to-element element)))
