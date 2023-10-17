@@ -8,6 +8,6 @@
 
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.jetbrains.kotlin/kotlin-stdlib-jdk8 "1.8.22"]
-                 [com.github.aivanovski/pico-automator "0.0.12"]]
+                 [com.github.aivanovski/pico-automator "0.1.0"]]
 
   :repl-options {:init-ns picoautomator.core})

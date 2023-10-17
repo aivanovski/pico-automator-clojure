@@ -16,6 +16,7 @@
   "A wrapper for PicoAutomatorApi that makes it easier to use from Clojure"
   (launch ^PicoAutomator [this package-name])
   (assert-visible ^PicoAutomator [this elements])
+  (assert-not-visible ^PicoAutomator [this elements])
   (tap-on ^PicoAutomator [this element])
   (long-tap-on ^PicoAutomator [this element])
   (input-text ^PicoAutomator
@@ -36,6 +37,12 @@
     (cond 
       (map? elements) (.assertVisible api (to-element elements))
       (list? elements) (.assertVisible api (map #(to-element %) elements)))
+    this)
+  (assert-not-visible
+    [this elements]
+    (cond 
+      (map? elements) (.assertNotVisible api (to-element elements))
+      (list? elements) (.assertNotVisible api (map #(to-element %) elements)))
     this)
   (tap-on [this element] (.tapOn api (to-element element)) this)
   (long-tap-on [this element] (.longTapOn api (to-element element)) this)
