@@ -14,7 +14,9 @@
 
 (defprotocol PicoAutomator
   "A wrapper for PicoAutomatorApi that makes it easier to use from Clojure"
-  (launch ^PicoAutomator [this package-name])
+  (launch ^PicoAutomator
+    [this package-name]
+    [this package-name options])
   (assert-visible ^PicoAutomator [this elements])
   (assert-not-visible ^PicoAutomator [this elements])
   (tap-on ^PicoAutomator [this element])
@@ -31,7 +33,12 @@
 
 (deftype PicoAutomatorImpl [^PicoAutomatorApi api]
   PicoAutomator
-  (launch [this package-name] (.launch api package-name) this)
+  (launch
+    [this package-name]
+    (.launch api package-name false) this)
+  (launch
+    [this package-name options]
+    (.launch api package-name (:clear-state options)) this)
   (assert-visible
     [this elements]
     (cond 
@@ -68,6 +75,9 @@
   (let [reporter (setup-flow-reporter)
         runner (FlowRunner/getDefaultRunner)
         flow (FlowFactory/newFlow flow-name (wrap-with-clj-api f))]
+
     (.addLifecycleListener runner reporter)
-    (.run runner flow true)
-    (.removeLifecycleListener runner reporter)))
+
+    (try
+      (.run runner flow true)
+      (finally (.removeLifecycleListener runner reporter)))))
