@@ -29,7 +29,8 @@
   (ui-tree ^UiTreeNode [this])
   (sleep ^PicoAutomator [this duration])
   (fail [this message])
-  (complete [this message]))
+  (complete [this message])
+  (shell [this command]))
 
 (deftype PicoAutomatorImpl [^PicoAutomatorApi api]
   PicoAutomator
@@ -61,7 +62,8 @@
   (ui-tree [this] (.getUiTree api))
   (sleep [this duration] (.sleep api (to-duration duration)) this)
   (fail [this message] (.fail api message))
-  (complete [this message] (.complete api message)))
+  (complete [this message] (.complete api message))
+  (shell [this command] (.shell api command) this))
 
 (defn wrap-with-clj-api
   [f]
